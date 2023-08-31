@@ -23,7 +23,7 @@ public class FirstAutoTest {
             Thread.sleep(3000);
             driver.get("https://www.baidu.com");
             Thread.sleep(3000);
-            driver.findElement(By.cssSelector("#kw")).sendKeys("坤坤表情包");
+                driver.findElement(By.cssSelector("#kw")).sendKeys("坤坤表情包");
             Thread.sleep(3000);
             driver.findElement(By.cssSelector("#su")).click();
             Thread.sleep(5000);
