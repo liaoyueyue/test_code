@@ -1,6 +1,7 @@
 package com.autotest0831;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -11,8 +12,9 @@ import java.io.UnsupportedEncodingException;
  * Time: 10:47
  */
 public class RunAutoTest {
-    public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         AutoTest autoTest = new AutoTest();
-        autoTest.bilibiliTest();
+//        autoTest.bilibiliTest();
+        autoTest.windowHandlesTest();
     }
 }
