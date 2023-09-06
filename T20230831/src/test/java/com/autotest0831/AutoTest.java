@@ -7,8 +7,9 @@ import org.openqa.selenium.edge.EdgeOptions;
 
 import javax.swing.filechooser.FileSystemView;
 import java.io.*;
-import java.util.List;
-import java.util.Set;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -39,7 +40,11 @@ public class AutoTest {
         }
     }
 
-    public void windowHandlesTest() throws InterruptedException, IOException {
+    public void windowHandlesTest() throws InterruptedException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("请输入需要查找的图片的关键字：");
+        String searchKey = scanner.next();
+
         EdgeOptions options = new EdgeOptions();
         options.addArguments("--remote-allow-origins=*");
         EdgeDriver driver = new EdgeDriver(options);
@@ -56,22 +61,49 @@ public class AutoTest {
             }
         }
         driver.manage().window().maximize();
-        driver.findElement(By.cssSelector("#kw")).sendKeys("ikun");
+        driver.findElement(By.cssSelector("#kw")).sendKeys(searchKey);
         Thread.sleep(2000);
         driver.findElement(By.cssSelector("#homeSearchForm > span.s_btn_wr")).click();
         Thread.sleep(2000);
         // 开始保存图片到本地目录
         FileSystemView systemView = FileSystemView.getFileSystemView();
         File desktopPath = systemView.getHomeDirectory();
-        File kunkunDirectory = new File(desktopPath,"ikunPicture");
-        kunkunDirectory.mkdirs();
-        //获取ikun图片集合
-        List<WebElement> elements = driver.findElements(By.className("imgbox-border"));
-        for (WebElement ele: elements
-             ) {
-            System.out.println(ele.getText());
+        File searchKeyDirectory = new File(desktopPath, searchKey);
+        searchKeyDirectory.mkdirs();
+        //获取searchKey图片集合
+        List<WebElement> elements = driver.findElements(By.cssSelector(".imgbox-border img"));
+        List<String> images = new ArrayList<>();
+        for (WebElement ele : elements) {
+            String img = ele.getAttribute("src");
+            System.out.println(img);
+            images.add(img);
         }
-        driver.quit();
+
+        for (String imageUrl : images) {
+            try {
+                URL url = new URL(imageUrl);
+                InputStream is = url.openStream();
+                String path = searchKeyDirectory.getPath() + "\\" + UUID.randomUUID().toString().replace("-", "") + ".jpg";
+                FileOutputStream fileOutputStream = new FileOutputStream(path);
+                byte[] tmp = new byte[1024];
+                int len = 0;
+                while ((len = is.read(tmp)) != -1) {
+                    fileOutputStream.write(tmp, 0, len);
+                }
+                fileOutputStream.flush();
+                fileOutputStream.close();
+                is.close();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } finally {
+                driver.quit();
+            }
+        }
+
     }
 
 }
