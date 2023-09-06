@@ -1,6 +1,6 @@
 package com.autotest20230906;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
@@ -17,6 +17,7 @@ import java.time.Duration;
  */
 public class WaitControl {
     EdgeDriver driver;
+
 
     public WaitControl() {
         EdgeOptions options = new EdgeOptions();

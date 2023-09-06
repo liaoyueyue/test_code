@@ -1,6 +1,6 @@
 package com.autotest20230906;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.edge.EdgeDriver;
