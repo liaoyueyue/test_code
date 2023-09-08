@@ -18,18 +18,18 @@ import java.time.Duration;
 public class waitTest {
     EdgeDriver driver;
 
+    @Test
+    void implicationTest() {
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
+        driver.quit();
+    }
+
     // 添加隐式等待
     // implicitly 含蓄地；无保留地；暗中地；不明显地；无疑问地
     public waitTest() {
         EdgeOptions options = new EdgeOptions();
         options.addArguments("--remote-allow-origins=*");
         this.driver = new EdgeDriver(options);
-    }
-
-    @Test
-    void implicationTest() {
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
-        driver.quit();
     }
 
     @Test
